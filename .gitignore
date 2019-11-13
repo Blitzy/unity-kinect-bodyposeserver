@@ -5,6 +5,14 @@
 [Bb]uilds/
 Assets/AssetStoreTools*
 
+# Azure Kinect Examples for Unity
+Assets/AzureKinectExamples*
+Assets/Third-Party-Notices.txt*
+
+# Azure Kinect libraries copied by Azure Kinect Examples for Unity.
+**/*.dll
+**/*.onnx
+
 .DS_Store
 Thumbs.db
 Thumbs.db.meta
