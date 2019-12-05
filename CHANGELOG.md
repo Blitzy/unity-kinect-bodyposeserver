@@ -9,6 +9,7 @@
     - Added on-screen input field for seting the avatar's session data id on the fly.
     - Change over to new Session Data component `UnityKinectAvatarSessionData` to better handle the specifics of dealing with a kinect controlled avatar.
         - This includes transmitting the avatar's offset from the main camera along with the bone rotations. So now all horizontal and vertical movement is supported in relation to the camera.
+    - Application is now windowed and resizable.
 
 ## v0.1.1 
 
