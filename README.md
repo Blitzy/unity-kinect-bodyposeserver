@@ -15,6 +15,9 @@ You may connect to a Session Socket Server using the Server button in the upper 
 
 > NOTE: Body tracking works even if not connected to a server. If you want the data to be piped to a Session Socket Server then you need to connect to one.
 
+### Avatar's Session Data Id:
+You may change the session data id of the kinect avatar using the input field displayed on screen. This allows you to change the target of the avatar data on the fly, depending on the id your remote application is expecting.
+
 ## External Dependencies
 
 ### Azure Kinect SDKs
