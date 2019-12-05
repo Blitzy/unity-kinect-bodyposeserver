@@ -5,7 +5,7 @@ namespace SessionSocketClient {
     /// </summary>
     public interface ISessionData {
         
-        string Id { get; }
+        string Id { get; set; }
 
         void UpdateData(string json);
     }
