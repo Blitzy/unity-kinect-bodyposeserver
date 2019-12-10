@@ -83,7 +83,7 @@ public class UnityKinectStageAvatarSessionData : UnitySessionData
             bone.localRotation = _boneDataList[i].localRotation;
         }
 
-        transform.localPosition = Camera.main.transform.localPosition + _offsetFromStageOrigin;
+        transform.localPosition = _offsetFromStageOrigin;
     }
 
     private void LateUpdate() {
