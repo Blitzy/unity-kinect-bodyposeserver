@@ -13,6 +13,7 @@ namespace SessionSocketClient {
         private string _id;
 
         private UnitySessionDataPermissions _permissions;
+        private int _eventListenersState = -1;
         private bool _hasStarted;
 
         public string Id { 
@@ -57,7 +58,7 @@ namespace SessionSocketClient {
             }
             
             // Hookup event listeners now that data is current.
-            HookupEventListeners();
+            _InternalEnableEventListeners(true);
             
             // Listen for changes to our data coming in to the Session Data Manager.
             SessionDataManager.Instance.SubscribeToUpdates(this);
@@ -72,7 +73,7 @@ namespace SessionSocketClient {
             if (_hasStarted) {
                 // Need to unsubscribe from updates using old id.
                 SessionDataManager.Instance.UnsubscribeFromUpdates(this);
-                UnhookEventListeners();
+                _InternalEnableEventListeners(false);
             }
 
             _id = newId;
@@ -84,7 +85,7 @@ namespace SessionSocketClient {
         protected void OnDestroy() {
             // This component is being destroyed, no longer need to listen for changes to our data.
             SessionDataManager.Instance.UnsubscribeFromUpdates(this);
-            UnhookEventListeners();
+            _InternalEnableEventListeners(false);
         }
 
         /// <summary>
@@ -97,7 +98,7 @@ namespace SessionSocketClient {
             }
 
             // Unhook from event listeners so that we dont get an infinite feedback loop when updating local ui elements with incoming data.
-            UnhookEventListeners();
+            _InternalEnableEventListeners(false);
 
             JsonUtility.FromJsonOverwrite(json, this);
             if (DebugEnabled) {
@@ -106,7 +107,7 @@ namespace SessionSocketClient {
             UpdateLocalFromData();
 
             // Hook event listeners back up now that the local ui elements have been updated.
-            HookupEventListeners();
+            _InternalEnableEventListeners(true);
         }
         
         /// <summary>
@@ -121,6 +122,25 @@ namespace SessionSocketClient {
             var json = JsonUtility.ToJson(this);
             // Debug.Log("[SessionData " + id + "] Save Data:\n" + json);
             SessionDataManager.Instance.UpdateData(Id, json, true);
+        }
+
+        private void _InternalEnableEventListeners(bool enable) {
+            if (enable) {   
+                if (_permissions != null && !_permissions.canSendUpdates) {
+                    // If permissions say that sending updates is not allowed, then don't enable event listeners.
+                    return;
+                }
+                
+                if (_eventListenersState == -1 || _eventListenersState == 0) {
+                    HookupEventListeners();
+                    _eventListenersState = 1;
+                }
+            } else {
+                if (_eventListenersState == 1) {
+                    UnhookEventListeners();
+                    _eventListenersState = 0;
+                }
+            }
         }
 
         // These functions are really the only ones that need to be implemented in derived classes.
