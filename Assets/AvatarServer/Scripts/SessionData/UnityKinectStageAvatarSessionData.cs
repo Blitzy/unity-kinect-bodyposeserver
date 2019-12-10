@@ -72,6 +72,7 @@ public class UnityKinectStageAvatarSessionData : UnitySessionData
         }
 
         _offsetFromStageOrigin = _CalcOffsetFromStageOrigin();
+        Debug.Log("[UnityKinectStageAvatarSessionData] UpdateDataFromLocal offsetFromStageOrigin: " + _offsetFromStageOrigin);
     }
 
     protected override void UpdateLocalFromData() {
@@ -83,7 +84,8 @@ public class UnityKinectStageAvatarSessionData : UnitySessionData
             bone.localRotation = _boneDataList[i].localRotation;
         }
 
-        transform.localPosition = _offsetFromStageOrigin;
+        _InheritOffsetFromStageOrigin();
+        Debug.Log("[UnityKinectStageAvatarSessionData] UpdateLocalFromData offsetFromStageOrigin: " + _offsetFromStageOrigin);
     }
 
     private void LateUpdate() {
@@ -123,6 +125,15 @@ public class UnityKinectStageAvatarSessionData : UnitySessionData
         
         var originLocalPos = transform.InverseTransformPoint(_stageOrigin.position);
         return originLocalPos - transform.localPosition;
+    }
+
+    private void _InheritOffsetFromStageOrigin() {
+        if (_stageOrigin == null) {
+            return;
+        }
+
+        var originLocalPos = transform.InverseTransformPoint(_stageOrigin.position);
+        transform.localPosition = originLocalPos + _offsetFromStageOrigin;
     }
 
     [Serializable]
