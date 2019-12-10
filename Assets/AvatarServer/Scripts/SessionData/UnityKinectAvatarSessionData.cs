@@ -16,7 +16,6 @@ public class UnityKinectAvatarSessionData : UnitySessionData
     [HideInInspector]
     private Vector3 _offsetFromCamera;
 
-
     private Animator _animator;
     private Dictionary<HumanBodyBones, Transform> _bones;
     private bool _watchForChanges;

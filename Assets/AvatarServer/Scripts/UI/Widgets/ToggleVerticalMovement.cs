@@ -4,14 +4,17 @@ using com.rfilkov.components;
 using System;
 
 [RequireComponent(typeof(Toggle))]
-public class ToggleGroundedFeet : MonoBehaviour {
-    public AvatarController avatarController;
+public class ToggleVerticalMovement : MonoBehaviour {
+    public StageAvatarController avatarController;
 
     private Toggle _toggle;
 
     private void Start() {
+        if (avatarController == null) {
+            avatarController = FindObjectOfType<StageAvatarController>();
+        }
         _toggle = GetComponent<Toggle>();
-        _toggle.SetIsOnWithoutNotify(avatarController.groundedFeet);
+        _toggle.SetIsOnWithoutNotify(avatarController.verticalMovement);
         _toggle.onValueChanged.AddListener(_OnToggleValueChanged);
     }
 
@@ -20,6 +23,6 @@ public class ToggleGroundedFeet : MonoBehaviour {
     }
 
     private void _OnToggleValueChanged(bool isOn) {
-        avatarController.groundedFeet = isOn;
+        avatarController.verticalMovement = isOn;
     }    
 }

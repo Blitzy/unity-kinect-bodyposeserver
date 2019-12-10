@@ -5,11 +5,15 @@ using System;
 
 [RequireComponent(typeof(InputField))]
 public class InputAvatarSessionId : MonoBehaviour {
-    public UnityKinectAvatarSessionData avatarSessionData;
+    public UnityKinectStageAvatarSessionData avatarSessionData;
 
     private InputField _input;
 
     private void Start() {
+        if (avatarSessionData == null) {
+            avatarSessionData = FindObjectOfType<UnityKinectStageAvatarSessionData>();
+        }
+
         _input = GetComponent<InputField>();
         _input.SetTextWithoutNotify(avatarSessionData.Id);
         _input.onEndEdit.AddListener(_OnEndEdit);
