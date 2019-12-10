@@ -122,7 +122,7 @@ public class UnityKinectStageAvatarSessionData : UnitySessionData
         }
         
         var originLocalPos = transform.InverseTransformPoint(_stageOrigin.position);
-        return transform.localPosition - originLocalPos;
+        return originLocalPos - transform.localPosition;
     }
 
     [Serializable]
