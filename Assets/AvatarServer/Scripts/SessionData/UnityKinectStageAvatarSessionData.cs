@@ -123,8 +123,8 @@ public class UnityKinectStageAvatarSessionData : UnitySessionData
             return Vector3.zero;
         }
         
-        var originLocalPos = transform.InverseTransformPoint(_stageOrigin.position);
-        return originLocalPos - transform.localPosition;
+        var dir = transform.position - _stageOrigin.position;
+        return dir;
     }
 
     private void _InheritOffsetFromStageOrigin() {
@@ -132,8 +132,7 @@ public class UnityKinectStageAvatarSessionData : UnitySessionData
             return;
         }
 
-        var originLocalPos = transform.InverseTransformPoint(_stageOrigin.position);
-        transform.localPosition = originLocalPos + _offsetFromStageOrigin;
+        transform.localPosition = _offsetFromStageOrigin;
     }
 
     [Serializable]
