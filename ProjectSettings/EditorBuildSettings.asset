@@ -7,5 +7,5 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/AvatarServer/Scenes/AvatarServer.unity
-    guid: f5f50c3ebb139ed4cb086ba18d6f64c2
+    guid: 956ee4a2b5f6c684a84fc10b06fcc02d
   m_configObjects: {}
