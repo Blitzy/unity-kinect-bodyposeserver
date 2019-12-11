@@ -8,8 +8,8 @@ public class AvatarServerManager : MonoBehaviour {
     
     public static AvatarServerManager Instance { get; private set; }
 
-    public SocketManager socketManager;
-    public HUDScreen hudScreen;
+    public GameObject hudMain;
+    public GameObject hudStageAvatar;
     public ServerConfiguration serverConfig;
     public ServerConnectScreen serverConnectScreen;
     public ServerConfigScreen serverConfigScreen;
@@ -24,8 +24,6 @@ public class AvatarServerManager : MonoBehaviour {
             Instance = this;
         }
 
-        Debug.Assert(socketManager != null, "[AvatarServerController] Reference to SocketManager is required.");
-
         if (_deviceConsolePrefab != null) {
             DeviceConsole = GameObject.Instantiate(_deviceConsolePrefab);
             DeviceConsole.transform.SetParent(transform);
@@ -36,7 +34,8 @@ public class AvatarServerManager : MonoBehaviour {
 
         serverConfig = new ServerConfiguration();
 
-        hudScreen.gameObject.SetActive(true);
+        hudMain.gameObject.SetActive(true);
+        hudStageAvatar.gameObject.SetActive(true);
         serverConfigScreen.gameObject.SetActive(false);
         serverConnectScreen.gameObject.SetActive(false);
     }

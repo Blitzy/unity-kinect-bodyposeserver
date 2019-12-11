@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Net;
 using System;
+using SessionSocketClient;
 
 public class ServerConnectScreen : MonoBehaviour {
     
@@ -32,9 +33,9 @@ public class ServerConnectScreen : MonoBehaviour {
     private void OnDisable() {
         if (AvatarServerManager.Instance != null) {
             AvatarServerManager.Instance.serverConfig.onServerConfigrationSet -= _OnServerConfigurationSet;
-
-            AvatarServerManager.Instance.socketManager.onConnected.RemoveListener(_OnConnected);
-            AvatarServerManager.Instance.socketManager.onConnectTimeout.RemoveListener(_OnConnectTimeout);
+            
+            SocketManager.Instance.onConnected.RemoveListener(_OnConnected);
+            SocketManager.Instance.onConnectTimeout.RemoveListener(_OnConnectTimeout);
         }
     }
 
@@ -48,10 +49,10 @@ public class ServerConnectScreen : MonoBehaviour {
             IPAddress address = AvatarServerManager.Instance.serverConfig.Address;
             int port = AvatarServerManager.Instance.serverConfig.Port;
 
-            AvatarServerManager.Instance.socketManager.onConnected.AddListener(_OnConnected);
-            AvatarServerManager.Instance.socketManager.onConnectTimeout.AddListener(_OnConnectTimeout);
+            SocketManager.Instance.onConnected.AddListener(_OnConnected);
+            SocketManager.Instance.onConnectTimeout.AddListener(_OnConnectTimeout);
             
-            AvatarServerManager.Instance.socketManager.Connect(address, port);
+            SocketManager.Instance.Connect(address, port);
         } else {
             _curState = ConnectState.InvalidAddress;
             _UpdateScreenConfiguration();
@@ -59,7 +60,7 @@ public class ServerConnectScreen : MonoBehaviour {
     }
 
     public void Disconnect() {
-        AvatarServerManager.Instance.socketManager.Disconnect();
+        SocketManager.Instance.Disconnect();
 
         _curState = ConnectState.Disconnected;
         _UpdateScreenConfiguration();
@@ -74,9 +75,8 @@ public class ServerConnectScreen : MonoBehaviour {
     }
 
     private void _OnServerConfigurationSet(ServerConfiguration serverConfig) {
-        var socketManager = AvatarServerManager.Instance.socketManager;
-        if (socketManager.IsClientRunning) {
-            if (socketManager.Connected) {
+        if (SocketManager.Instance.IsClientRunning) {
+            if (SocketManager.Instance.Connected) {
                 _curState = ConnectState.Connected;
             } else {
                 _curState = ConnectState.Connecting;
@@ -92,8 +92,8 @@ public class ServerConnectScreen : MonoBehaviour {
         _curState = ConnectState.Connected;
         _UpdateScreenConfiguration();
         
-        AvatarServerManager.Instance.socketManager.onConnected.RemoveListener(_OnConnected);
-        AvatarServerManager.Instance.socketManager.onConnectTimeout.RemoveListener(_OnConnectTimeout);
+        SocketManager.Instance.onConnected.RemoveListener(_OnConnected);
+        SocketManager.Instance.onConnectTimeout.RemoveListener(_OnConnectTimeout);
 
         gameObject.SetActive(false);
     }
@@ -102,8 +102,8 @@ public class ServerConnectScreen : MonoBehaviour {
         _curState = ConnectState.ConnectTimeout;
         _UpdateScreenConfiguration();
         
-        AvatarServerManager.Instance.socketManager.onConnected.RemoveListener(_OnConnected);
-        AvatarServerManager.Instance.socketManager.onConnectTimeout.RemoveListener(_OnConnectTimeout);
+        SocketManager.Instance.onConnected.RemoveListener(_OnConnected);
+        SocketManager.Instance.onConnectTimeout.RemoveListener(_OnConnectTimeout);
 
         connectButton.gameObject.SetActive(true);
         connectingIndicator.SetActive(false);
