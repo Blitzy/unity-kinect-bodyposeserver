@@ -72,7 +72,6 @@ public class UnityKinectStageAvatarSessionData : UnitySessionData
         }
 
         _offsetFromStageOrigin = _CalcOffsetFromStageOrigin();
-        Debug.Log("[UnityKinectStageAvatarSessionData] UpdateDataFromLocal offsetFromStageOrigin: " + _offsetFromStageOrigin);
     }
 
     protected override void UpdateLocalFromData() {
@@ -85,7 +84,6 @@ public class UnityKinectStageAvatarSessionData : UnitySessionData
         }
 
         _InheritOffsetFromStageOrigin();
-        Debug.Log("[UnityKinectStageAvatarSessionData] UpdateLocalFromData offsetFromStageOrigin: " + _offsetFromStageOrigin);
     }
 
     private void LateUpdate() {
