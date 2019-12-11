@@ -2,6 +2,15 @@
 
 # Changelog
 
+## v0.3.0
+
+- Improvements
+    - Can now calibrate the Kinect Avatar's origin point by performing a T-Pose gesture.
+        - This is very useful when sending the data to remote clients that are placing the avatar at some arbitrary point in space. Calibrating the avatar's origin point allows for avatar to line up in remote scenes properly.
+    - Now using `UnityKinectStageAvatarSessionData` to sync data across the session socket server. Clients should use this component to stay in sync with the server data. Also supports the avatar origin point calibration.
+    - Added mirrored movement toggle.
+    - Some other behind the scenes organization, getting ready to support multiple types of body tracking.
+
 ## v0.2.0
 
 - Improvements
